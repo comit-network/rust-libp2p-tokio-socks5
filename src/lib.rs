@@ -61,7 +61,7 @@ const DEFAULT_SOCKS_PORT: u16 = 9050;
 /// The TCP sockets created by libp2p will need to be progressed by running the
 /// futures and streams obtained by libp2p through the tokio reactor.
 #[cfg_attr(docsrs, doc(cfg(feature = $feature_name)))]
-#[derive(Debug, Clone, Default)]
+#[derive(Debug, Clone)]
 pub struct TorTokioTcpConfig {
     /// How long a listener should sleep after receiving an error, before trying
     /// again.
@@ -78,13 +78,13 @@ pub struct TorTokioTcpConfig {
 
 impl TorTokioTcpConfig {
     /// Creates a new configuration object for TCP/IP.
-    pub fn new() -> TorTokioTcpConfig {
+    pub fn new(socks_port: u16) -> TorTokioTcpConfig {
         TorTokioTcpConfig {
             sleep_on_error: Duration::from_millis(100),
             ttl: None,
             nodelay: None,
             onion_map: HashMap::new(),
-            socks_port: DEFAULT_SOCKS_PORT,
+            socks_port,
         }
     }
 
@@ -110,6 +110,20 @@ impl TorTokioTcpConfig {
     pub fn socks_port(mut self, port: u16) -> Self {
         self.socks_port = port;
         self
+    }
+}
+
+impl Default for TorTokioTcpConfig {
+    /// Creates a new configuration object for TCP/IP using the default Tor
+    /// SOCKS5 port - 9050.
+    fn default() -> TorTokioTcpConfig {
+        TorTokioTcpConfig {
+            sleep_on_error: Duration::from_millis(100),
+            ttl: None,
+            nodelay: None,
+            onion_map: HashMap::new(),
+            socks_port: DEFAULT_SOCKS_PORT,
+        }
     }
 }
 

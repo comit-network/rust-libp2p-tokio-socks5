@@ -172,8 +172,8 @@ fn build_transport(
     keypair: Keypair,
     map: HashMap<Multiaddr, u16>,
 ) -> anyhow::Result<PingPongTransport> {
-    let transport = TorTokioTcpConfig::new().nodelay(true).onion_map(map);
-    let transport = DnsConfig::new(transport)?;
+    let tcp = TorTokioTcpConfig::default().nodelay(true).onion_map(map);
+    let transport = DnsConfig::new(tcp)?;
 
     let transport = transport
         .upgrade(Version::V1)
