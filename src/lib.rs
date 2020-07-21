@@ -19,7 +19,8 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 // DEALINGS IN THE SOFTWARE.
 
-//! Implementation of the libp2p `Transport` trait for TCP/IP using Tokio.
+//! Implementation of the libp2p `Transport` trait for TCP/IP over a SOCKS5
+//! proxy using Tokio.
 //!
 //! Copied from github.com/libp2p/rust-libp2p/transports/tcp/lib.rs with
 //! features = "tcp-tokio". Modified by Tobin C. Harding <tobin@coblox.tech>
