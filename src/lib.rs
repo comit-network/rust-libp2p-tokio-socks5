@@ -242,7 +242,7 @@ impl Transport for TorTokioTcpConfig {
             dest: String,
         ) -> Result<TokioTcpTransStream, io::Error> {
             info!("Connecting to Tor proxy ...");
-            let stream = connect_tor_socks_proxy(dest, cfg.socks_port)
+            let stream = connect_to_socks_proxy(dest, cfg.socks_port)
                 .await
                 .map_err(|e| io::Error::new(io::ErrorKind::ConnectionRefused, e))?;
             info!("Connection established");
@@ -265,6 +265,16 @@ fn tor_address_string(mut multi: Multiaddr) -> Option<String> {
     };
     let addr = format!("{}.onion:{}", encoded.to_lowercase(), port);
     Some(addr)
+}
+
+/// Connect to the SOCKS5 proxy socket.
+async fn connect_to_socks_proxy<'a>(
+    dest: impl IntoTargetAddr<'a>,
+    port: u16,
+) -> Result<TcpStream, tokio_socks::Error> {
+    let sock = SocketAddr::V4(SocketAddrV4::new(Ipv4Addr::LOCALHOST, port));
+    let stream = Socks5Stream::connect(sock, dest).await?;
+    Ok(stream.into_inner())
 }
 
 /// Stream that listens on an TCP/IP address.
@@ -531,16 +541,6 @@ fn check_for_interface_changes<T>(
     }
 
     Ok(())
-}
-
-/// Connect to the Tor socks5 proxy socket.
-async fn connect_tor_socks_proxy<'a>(
-    dest: impl IntoTargetAddr<'a>,
-    port: u16,
-) -> Result<TcpStream, tokio_socks::Error> {
-    let tor_sock = SocketAddr::V4(SocketAddrV4::new(Ipv4Addr::LOCALHOST, port));
-    let stream = Socks5Stream::connect(tor_sock, dest).await?;
-    Ok(stream.into_inner())
 }
 
 #[cfg(test)]
