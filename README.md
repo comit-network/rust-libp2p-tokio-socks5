@@ -1,8 +1,9 @@
 Rust-libp2p TCP/IP via a SOCKS5 proxy
 =====================================
 
-Contains an implementation of the [rust-libp2p]() `Transport` that can
-be used to redirect traffic over a SOCKS5 proxy.
+Contains an implementation of the
+[rust-libp2p](https://github.com/libp2p/rust-libp2p) `Transport` that
+can be used to redirect traffic over a SOCKS5 proxy.
 
 Currently functionality is limited to using the `Tor` daemon as the
 SOCKS5 proxy (see below for reason).
