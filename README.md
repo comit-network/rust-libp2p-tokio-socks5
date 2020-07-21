@@ -21,3 +21,10 @@ thing that makes it Tor specific is the address handling. We convert
 the Multiaddr to a string in the format that the Tor daemon expects.
 Other SOCKS5 proxies could be used if this address conversion logic
 was abstracted away.
+
+TODO
+----
+
+- Remove `Tor` from config type
+- Improve README
+- Release on crates.io
