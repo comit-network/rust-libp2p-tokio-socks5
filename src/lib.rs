@@ -235,17 +235,17 @@ impl Transport for TorTokioTcpConfig {
     fn dial(self, addr: Multiaddr) -> Result<Self::Dial, TransportError<Self::Error>> {
         let dest = tor_address_string(addr.clone())
             .ok_or_else(|| TransportError::MultiaddrNotSupported(addr))?;
-        debug!("dest: {}", dest);
+        debug!("Tor destination address: {}", dest);
 
         async fn do_dial(
             cfg: TorTokioTcpConfig,
             dest: String,
         ) -> Result<TokioTcpTransStream, io::Error> {
-            info!("connecting to Tor proxy ...");
+            info!("Connecting to Tor proxy ...");
             let stream = connect_tor_socks_proxy(dest, cfg.socks_port)
                 .await
                 .map_err(|e| io::Error::new(io::ErrorKind::ConnectionRefused, e))?;
-            info!("connection established");
+            info!("Connection established");
 
             apply_config(&cfg, &stream)?;
 
