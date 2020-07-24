@@ -35,7 +35,7 @@ use libp2p::{
 use log::{warn, Level};
 use structopt::StructOpt;
 
-use rust_libp2p_tokio_socks5::TorTokioTcpConfig;
+use rust_libp2p_tokio_socks5::Socks5TokioTcpConfig;
 
 /// The ping-pong onion service address.
 const ONION: &str = "/onion3/7gr3dngwhk74thi4vv6bm3v3bicaxe4apvcemoxo3hadpvsyfifjqnid:7";
@@ -172,7 +172,7 @@ fn build_transport(
     keypair: Keypair,
     map: HashMap<Multiaddr, u16>,
 ) -> anyhow::Result<PingPongTransport> {
-    let tcp = TorTokioTcpConfig::default().nodelay(true).onion_map(map);
+    let tcp = Socks5TokioTcpConfig::default().nodelay(true).onion_map(map);
     let transport = DnsConfig::new(tcp)?;
 
     let transport = transport

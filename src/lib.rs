@@ -62,7 +62,7 @@ const DEFAULT_SOCKS_PORT: u16 = 9050;
 /// futures and streams obtained by libp2p through the tokio reactor.
 #[cfg_attr(docsrs, doc(cfg(feature = $feature_name)))]
 #[derive(Debug, Clone)]
-pub struct TorTokioTcpConfig {
+pub struct Socks5TokioTcpConfig {
     /// How long a listener should sleep after receiving an error, before trying
     /// again.
     sleep_on_error: Duration,
@@ -76,10 +76,10 @@ pub struct TorTokioTcpConfig {
     socks_port: u16,
 }
 
-impl TorTokioTcpConfig {
+impl Socks5TokioTcpConfig {
     /// Creates a new configuration object for TCP/IP.
-    pub fn new(socks_port: u16) -> TorTokioTcpConfig {
-        TorTokioTcpConfig {
+    pub fn new(socks_port: u16) -> Self {
+        Self {
             sleep_on_error: Duration::from_millis(100),
             ttl: None,
             nodelay: None,
@@ -113,11 +113,11 @@ impl TorTokioTcpConfig {
     }
 }
 
-impl Default for TorTokioTcpConfig {
+impl Default for Socks5TokioTcpConfig {
     /// Creates a new configuration object for TCP/IP using the default Tor
     /// SOCKS5 port - 9050.
-    fn default() -> TorTokioTcpConfig {
-        TorTokioTcpConfig {
+    fn default() -> Self {
+        Self {
             sleep_on_error: Duration::from_millis(100),
             ttl: None,
             nodelay: None,
@@ -130,7 +130,7 @@ impl Default for TorTokioTcpConfig {
 type Listener<TUpgrade, TError> =
     Pin<Box<dyn Stream<Item = Result<ListenerEvent<TUpgrade, TError>, TError>> + Send>>;
 
-impl Transport for TorTokioTcpConfig {
+impl Transport for Socks5TokioTcpConfig {
     type Output = TokioTcpTransStream;
     type Error = io::Error;
     type Listener = Listener<Self::ListenerUpgrade, Self::Error>;
@@ -145,7 +145,7 @@ impl Transport for TorTokioTcpConfig {
         let socket_addr = SocketAddr::V4(SocketAddrV4::new(Ipv4Addr::LOCALHOST, *port));
 
         async fn do_listen(
-            cfg: TorTokioTcpConfig,
+            cfg: Socks5TokioTcpConfig,
             socket_addr: SocketAddr,
         ) -> Result<
             impl Stream<
@@ -238,7 +238,7 @@ impl Transport for TorTokioTcpConfig {
         debug!("Tor destination address: {}", dest);
 
         async fn do_dial(
-            cfg: TorTokioTcpConfig,
+            cfg: Socks5TokioTcpConfig,
             dest: String,
         ) -> Result<TokioTcpTransStream, io::Error> {
             info!("Connecting to Tor proxy ...");
@@ -293,7 +293,7 @@ pub struct TokioTcpListenStream {
     /// Temporary buffer of listener events.
     pending: Buffer<TokioTcpTransStream>,
     /// Original configuration.
-    config: TorTokioTcpConfig,
+    config: Socks5TokioTcpConfig,
 }
 
 impl TokioTcpListenStream {
@@ -397,7 +397,7 @@ impl Drop for TokioTcpTransStream {
 }
 
 /// Applies the socket configuration parameters to a socket.
-fn apply_config(config: &TorTokioTcpConfig, socket: &TcpStream) -> Result<(), io::Error> {
+fn apply_config(config: &Socks5TokioTcpConfig, socket: &TcpStream) -> Result<(), io::Error> {
     if let Some(ttl) = config.ttl {
         socket.set_ttl(ttl)?;
     }
