@@ -17,8 +17,11 @@ Example transport creation:
 /// - Multiplexing via yamux or mplex
 fn build_transport(
     keypair: Keypair,
-    map: HashMap<Multiaddr, u16>,
+    addr: Multiaddr,
 ) -> anyhow::Result<PingPongTransport> {
+    let mut map = HashMap::new();
+    map.insert(addr, LOCAL_PORT);
+
     let tcp = Socks5TokioTcpConfig::default().nodelay(true).onion_map(map);
     let transport = DnsConfig::new(tcp)?;
 
@@ -34,12 +37,6 @@ fn build_transport(
         .boxed();
 
     Ok(transport)
-}
-
-fn onion_port_map(onion: Multiaddr) -> HashMap<Multiaddr, u16> {
-    let mut map = HashMap::new();
-    map.insert(onion, LOCAL_PORT);
-    map
 }
 ```
 
