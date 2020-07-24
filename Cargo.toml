@@ -8,6 +8,7 @@ license = "GPL-3.0"
 repository = "https://github.com/comit-network/rust-libp2p-tokio-socks5"
 keywords = ["socks5", "tor", "peer-to-peer", "libp2p", "networking"]
 categories = ["network-programming", "asynchronous"]
+exclude = ["rustfmt.toml"]
 
 [dependencies]
 data-encoding = "2.2"
