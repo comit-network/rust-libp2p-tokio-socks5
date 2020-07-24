@@ -1,8 +1,13 @@
 [package]
-name = "rust-libp2p-tokio-socks5"
+name = "libp2p-tokio-socks5"
+edition = "2018"
+description = "TCP/IP (via a SOCKS5 proxy) transport protocol for libp2p"
 version = "0.1.0"
 authors = ["Tobin C. Harding <tobin@coblox.tech>"]
-edition = "2018"
+license = "GPL-3.0"
+repository = "https://github.com/comit-network/rust-libp2p-tokio-socks5"
+keywords = ["socks5", "tor", "peer-to-peer", "libp2p", "networking"]
+categories = ["network-programming", "asynchronous"]
 
 [dependencies]
 data-encoding = "2.2"
@@ -18,9 +23,7 @@ tokio-socks = "0.2"
 
 [dev-dependencies]
 anyhow = "1.0"
-futures = "0.3"
 libp2p = { version = "0.21", default-features = false, features = [ "secio", "yamux", "mplex", "dns", "tcp-tokio", "ping"] }
-log = "0.4"
 simple_logger = "1.6"
 structopt = "0.3"
 tokio = { version = "0.2", features = ["rt-threaded", "macros", "tcp"] }

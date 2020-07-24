@@ -35,7 +35,7 @@ use libp2p::{
 use log::{warn, Level};
 use structopt::StructOpt;
 
-use rust_libp2p_tokio_socks5::Socks5TokioTcpConfig;
+use libp2p_tokio_socks5::Socks5TokioTcpConfig;
 
 /// The ping-pong onion service address.
 const ONION: &str = "/onion3/7gr3dngwhk74thi4vv6bm3v3bicaxe4apvcemoxo3hadpvsyfifjqnid:7";
