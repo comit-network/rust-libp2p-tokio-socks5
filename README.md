@@ -70,10 +70,5 @@ This repository is named `SOCKS5` instead of `Tor` because technically
 there is no reason to be `Tor` specific. In actuality the transport
 created with `Socks5TokioTcpConfig` will only currently work with a
 `Tor` proxy because of the address munging we do before passing the
-target address to the proxy. PRs welcome.
-
-TODO
-----
-
-- Add a github issue outlining the target address issue
-- Release on crates.io
+target address to the proxy. PRs welcome, please see
+https://github.com/comit-network/rust-libp2p-tokio-socks5/issues/1.
