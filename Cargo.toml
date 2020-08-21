@@ -16,7 +16,7 @@ futures = "0.3"
 futures-timer = "3.0"
 get_if_addrs = "0.5"
 ipnet = "2.3"
-libp2p = { version = "0.21", default-features = false }
+libp2p = { version = "0.24", default-features = false }
 log = "0.4"
 socket2 = "0.3"
 tokio = { version = "0.2", features = ["tcp"] }
@@ -24,7 +24,7 @@ tokio-socks = "0.2"
 
 [dev-dependencies]
 anyhow = "1.0"
-libp2p = { version = "0.21", default-features = false, features = [ "secio", "yamux", "mplex", "dns", "tcp-tokio", "ping"] }
+libp2p = { version = "0.24", default-features = false, features = [ "secio", "yamux", "mplex", "dns", "tcp-tokio", "ping"] }
 simple_logger = "1.6"
 structopt = "0.3"
 tokio = { version = "0.2", features = ["rt-threaded", "macros", "tcp"] }
