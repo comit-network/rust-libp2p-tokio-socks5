@@ -27,8 +27,8 @@ use libp2p::{
     dns::{DnsConfig, DnsErr},
     identity::Keypair,
     mplex::MplexConfig,
+    noise::{self, NoiseConfig, NoiseError, X25519Spec},
     ping::{Ping, PingConfig},
-    secio::{SecioConfig, SecioError},
     swarm::SwarmBuilder,
     yamux, Multiaddr, PeerId, Swarm, Transport,
 };
@@ -166,18 +166,21 @@ impl libp2p::core::Executor for TokioExecutor {
 /// Builds a libp2p transport with the following features:
 /// - TCP connectivity over the Tor network
 /// - DNS name resolution
-/// - Authentication via secio
+/// - Authentication via noise
 /// - Multiplexing via yamux or mplex
 fn build_transport(
-    keypair: Keypair,
+    id_keys: Keypair,
     map: HashMap<Multiaddr, u16>,
 ) -> anyhow::Result<PingPongTransport> {
+    let dh_keys = noise::Keypair::<X25519Spec>::new().into_authentic(&id_keys)?;
+    let noise = NoiseConfig::xx(dh_keys).into_authenticated();
+
     let tcp = Socks5TokioTcpConfig::default().nodelay(true).onion_map(map);
     let transport = DnsConfig::new(tcp)?;
 
     let transport = transport
         .upgrade(Version::V1)
-        .authenticate(SecioConfig::new(keypair))
+        .authenticate(noise)
         .multiplex(SelectUpgrade::new(
             yamux::Config::default(),
             MplexConfig::new(),
@@ -194,7 +197,7 @@ pub type PingPongTransport = Boxed<
     (PeerId, StreamMuxerBox),
     TransportTimeoutError<
         EitherError<
-            EitherError<DnsErr<io::Error>, UpgradeError<SecioError>>,
+            EitherError<DnsErr<io::Error>, UpgradeError<NoiseError>>,
             UpgradeError<EitherError<io::Error, io::Error>>,
         >,
     >,
