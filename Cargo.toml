@@ -2,7 +2,7 @@
 name = "libp2p-tokio-socks5"
 edition = "2018"
 description = "TCP/IP (via a SOCKS5 proxy) transport protocol for libp2p"
-version = "0.4.0"
+version = "0.4.1"
 authors = ["Tobin C. Harding <tobin@coblox.tech>"]
 license = "GPL-3.0"
 repository = "https://github.com/comit-network/rust-libp2p-tokio-socks5"
@@ -11,7 +11,7 @@ categories = ["network-programming", "asynchronous"]
 exclude = ["rustfmt.toml"]
 
 [dependencies]
-data-encoding = "2.2"
+data-encoding = "2.3"
 futures = "0.3"
 futures-timer = "3.0"
 get_if_addrs = "0.5"
