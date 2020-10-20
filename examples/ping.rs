@@ -8,7 +8,6 @@
 
 use std::{
     collections::HashMap,
-    io,
     pin::Pin,
     task::{Context, Poll},
     time::Duration,
@@ -18,16 +17,14 @@ use anyhow::Result;
 use futures::{future, prelude::*};
 use libp2p::{
     core::{
-        either::EitherError,
         muxing::StreamMuxerBox,
-        transport::{boxed::Boxed, timeout::TransportTimeoutError},
+        transport::Boxed,
         upgrade::{SelectUpgrade, Version},
-        UpgradeError,
     },
-    dns::{DnsConfig, DnsErr},
+    dns::DnsConfig,
     identity::Keypair,
     mplex::MplexConfig,
-    noise::{self, NoiseConfig, NoiseError, X25519Spec},
+    noise::{self, NoiseConfig, X25519Spec},
     ping::{Ping, PingConfig},
     swarm::SwarmBuilder,
     yamux, Multiaddr, PeerId, Swarm, Transport,
@@ -186,19 +183,10 @@ fn build_transport(
             MplexConfig::new(),
         ))
         .map(|(peer, muxer), _| (peer, StreamMuxerBox::new(muxer)))
-        .timeout(Duration::from_secs(20))
         .boxed();
 
     Ok(transport)
 }
 
 /// libp2p `Transport` for the ping-pong application.
-pub type PingPongTransport = Boxed<
-    (PeerId, StreamMuxerBox),
-    TransportTimeoutError<
-        EitherError<
-            EitherError<DnsErr<io::Error>, UpgradeError<NoiseError>>,
-            UpgradeError<EitherError<io::Error, io::Error>>,
-        >,
-    >,
->;
+pub type PingPongTransport = Boxed<(PeerId, StreamMuxerBox)>;
