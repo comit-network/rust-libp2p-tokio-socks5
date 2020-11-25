@@ -43,8 +43,7 @@ use socket2::{Domain, Socket, Type};
 use std::{
     collections::{HashMap, VecDeque},
     convert::TryFrom,
-    io,
-    iter::{self, FromIterator},
+    io, iter,
     net::{IpAddr, Ipv4Addr, SocketAddr, SocketAddrV4},
     pin::Pin,
     task::{Context, Poll},
@@ -233,8 +232,8 @@ impl Transport for Socks5TokioTcpConfig {
     }
 
     fn dial(self, addr: Multiaddr) -> Result<Self::Dial, TransportError<Self::Error>> {
-        let dest = tor_address_string(addr.clone())
-            .ok_or_else(|| TransportError::MultiaddrNotSupported(addr))?;
+        let dest =
+            tor_address_string(addr.clone()).ok_or(TransportError::MultiaddrNotSupported(addr))?;
         debug!("Tor destination address: {}", dest);
 
         async fn do_dial(
@@ -443,8 +442,9 @@ fn ip_to_multiaddr(ip: IpAddr, port: u16) -> Multiaddr {
         IpAddr::V4(ip) => Protocol::Ip4(ip),
         IpAddr::V6(ip) => Protocol::Ip6(ip),
     };
-    let it = iter::once(proto).chain(iter::once(Protocol::Tcp(port)));
-    Multiaddr::from_iter(it)
+    iter::once(proto)
+        .chain(iter::once(Protocol::Tcp(port)))
+        .collect()
 }
 
 // Collect all local host addresses and use the provided port number as listen

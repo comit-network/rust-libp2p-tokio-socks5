@@ -27,7 +27,8 @@ use libp2p::{
     noise::{self, NoiseConfig, X25519Spec},
     ping::{Ping, PingConfig},
     swarm::SwarmBuilder,
-    yamux, Multiaddr, PeerId, Swarm, Transport,
+    yamux::YamuxConfig,
+    Multiaddr, PeerId, Swarm, Transport,
 };
 use log::{warn, Level};
 use structopt::StructOpt;
@@ -179,7 +180,7 @@ fn build_transport(
         .upgrade(Version::V1)
         .authenticate(noise)
         .multiplex(SelectUpgrade::new(
-            yamux::Config::default(),
+            YamuxConfig::default(),
             MplexConfig::new(),
         ))
         .map(|(peer, muxer), _| (peer, StreamMuxerBox::new(muxer)))
