@@ -1,6 +1,7 @@
 # Version 0.7.0 [unrealeased]
 
 - Upgrade to libp2p v0.34
+- Warn users of deprecation of Onion v2 addresses
 
 # Version 0.6.0 [2020-12-22]
 

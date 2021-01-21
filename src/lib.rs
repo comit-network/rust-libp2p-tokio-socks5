@@ -266,7 +266,10 @@ impl Transport for Socks5TokioTcpConfig {
 // Tor expects address in form: ADDR.onion:PORT
 fn tor_address_string(mut multi: Multiaddr) -> Option<String> {
     let (encoded, port) = match multi.pop()? {
-        Protocol::Onion(addr, port) => (BASE32.encode(addr.as_ref()), port),
+        Protocol::Onion(addr, port) => {
+            log::warn!("Onion service v2 is being deprecated, consider upgrading to v3");
+            (BASE32.encode(addr.as_ref()), port)
+        }
         Protocol::Onion3(addr) => (BASE32.encode(addr.hash()), addr.port()),
         _ => return None,
     };
