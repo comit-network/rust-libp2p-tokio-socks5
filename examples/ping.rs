@@ -30,7 +30,7 @@ use libp2p::{
     yamux::YamuxConfig,
     Multiaddr, PeerId, Swarm, Transport,
 };
-use log::{warn, Level};
+use log::warn;
 use structopt::StructOpt;
 
 use libp2p_tokio_socks5::Socks5TokioTcpConfig;
@@ -54,7 +54,7 @@ const LOCAL_PORT: u16 = 7777;
 /// check the permissions on the hidden service data dir :)
 #[tokio::main]
 async fn main() -> Result<()> {
-    simple_logger::init_with_level(Level::Info).unwrap();
+    env_logger::init();
 
     let opt = Opt::from_args();
 
