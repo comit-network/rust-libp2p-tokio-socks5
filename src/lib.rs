@@ -23,7 +23,7 @@
 //! proxy using Tokio.
 //!
 //! Copied from github.com/libp2p/rust-libp2p/transports/tcp/lib.rs with
-//! features = "tcp-tokio". Modified by Tobin C. Harding <tobin@coblox.tech>
+//! features = "tcp-tokio". Modified by Tobin C. Harding <me@tobin.cc>
 
 use data_encoding::BASE32;
 use futures::{
