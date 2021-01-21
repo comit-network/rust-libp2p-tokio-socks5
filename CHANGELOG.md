@@ -1,4 +1,8 @@
-# Version 0.7.0 [unrealeased]
+# Version 0.7.1 [2021-01-21]
+
+- Update the CHANGELOG you wombat
+
+# Version 0.7.0 [2021-01-21]
 
 - Upgrade to libp2p v0.34
 - Warn users of deprecation of Onion v2 addresses
