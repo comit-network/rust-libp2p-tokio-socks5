@@ -253,6 +253,14 @@ impl Transport for Socks5TokioTcpConfig {
 
         Ok(Box::pin(do_dial(self, dest)))
     }
+
+    /// Performs a transport-specific mapping of an address `observed` by
+    /// a remote onto a local `listen` address to yield an address for
+    /// the local node that may be reachable for other peers.
+    fn address_translation(&self, _listen: &Multiaddr, _observed: &Multiaddr) -> Option<Multiaddr> {
+        // Is this ever useful for Onion addresses?
+        None
+    }
 }
 
 // Tor expects address in form: ADDR.onion:PORT

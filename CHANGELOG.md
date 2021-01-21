@@ -1,3 +1,7 @@
+# Version 0.7.0 [unrealeased]
+
+- Upgrade to libp2p v0.34
+
 # Version 0.6.0 [2020-12-22]
 
 - Upgrade to libp2p v0.33
