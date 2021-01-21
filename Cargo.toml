@@ -2,7 +2,7 @@
 name = "libp2p-tokio-socks5"
 edition = "2018"
 description = "TCP/IP (via a SOCKS5 proxy) transport protocol for libp2p"
-version = "0.6.0"
+version = "0.7.0"
 authors = ["Tobin C. Harding <me@tobin.cc>"]
 license = "GPL-3.0"
 repository = "https://github.com/comit-network/rust-libp2p-tokio-socks5"
