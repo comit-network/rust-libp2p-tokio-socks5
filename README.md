@@ -1,6 +1,11 @@
 Rust-libp2p TCP/IP via a SOCKS5 proxy
 =====================================
 
+**This crate is un-maintained** The last supported version of `rust-libp2p` is
+v0.34. If you would like to take over maintenance of it please feel free to
+email 'me (at) tobin.cc'. Thanks.
+
+
 Contains an implementation of the
 [rust-libp2p](https://github.com/libp2p/rust-libp2p) `Transport` that
 can be used to redirect traffic over a SOCKS5 proxy.

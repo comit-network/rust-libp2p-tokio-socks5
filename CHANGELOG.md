@@ -1,3 +1,7 @@
+# Version 0.8.0 [2021-07-07]
+
+- Mark crate as un-maintained
+
 # Version 0.7.1 [2021-01-21]
 
 - Update the CHANGELOG you wombat
